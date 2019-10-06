@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!--Exercise 1.1 Author : Somu-->
+<library>
+    <catalogue category="technical">
+        <book>
+            <ISBN>123456</ISBN>
+            <title>Python for Beginner</title>
+            <author>David I</author>
+        </book>
+        <book>
+            <ISBN>123457</ISBN>
+            <title>Python for Data Analysis</title>
+            <author>David I</author>
+        </book>
+    </catalogue>
+    <catalogue category="cookery">
+        <book>
+            <ISBN>123458</ISBN>
+            <title>Italian Dishes</title>
+            <author>Jamie Oliver</author>
+        </book>
+        <book>
+            <ISBN>123459</ISBN>
+            <title>Continental Dishes</title>
+            <author>Jamie Oliver</author>
+        </book>
+    </catalogue>
+</library>
