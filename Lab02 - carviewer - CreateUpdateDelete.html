@@ -46,14 +46,17 @@
                         <th>Ford</th>
                         <th>Modeo</th>
                         <th>25000</th>
-                        <th><button> update</button></th>
-                        <th><button> delete</button></th>
+                        <th><button onclick="showUpdate(this)"> update</button></th>
+                        <th><button onclick="doCreate()"> delete</button></th>
                 </tr>
             </table>
         </div>
         <div class="div1" id="createupdatedelete" style="display:none">
             <form>
-                <h2><span>Create a</span><span>Update this</span><span>Car</span></h2> <div class="clear"></div>
+                <h2><span id="createLabel">Create a</span>
+                    <span id="UpdateLabel">Update this</span>
+                    <span>Car</span>
+                </h2>
                 <div class="form-group">
                     <label>Registration Number:</label> 
                     <input type="text" name="reg" class="form-control"><br/> 
@@ -74,8 +77,8 @@
                     <label>Car Price:</label> 
                     <input type="number" name="price" class="form-control"><br/> 
                 </div>
-                <span><button class="btn btn-primary">Create</button></span>
-                <span><button class="btn btn-primary">Update</button></span>
+                <span><button class="btn btn-primary" id="doCreateButton" onclick="doCreate()">Create</button></span>
+                <span><button class="btn btn-primary" id="doUpdateButton" onclick="doUpdate()">Update</button></span>
             </form>
         </div>
     </body>
@@ -87,7 +90,29 @@
             document.getElementById('showcreatebutton').style.display = "none";
             document.getElementById('cartable').style.display = "none";
             document.getElementById('createupdatedelete').style.display = "block";
+
+            document.getElementById('createLabel').style.display = "inline";
+            document.getElementById('UpdateLabel').style.display = "none";
+            document.getElementById('doCreateButton').style.display = "block";
+            document.getElementById('doUpdateButton').style.display = "none";
         }
+
+        function doCreate()
+        {
+            document.getElementById('createLabel').style.display = "inline";
+            document.getElementById('UpdateLabel').style.display = "none";
+            document.getElementById('doCreateButton').style.display = "block";
+            document.getElementById('doUpdateButton').style.display = "none";
+        }
+
+        function doCreate()
+        {
+            document.getElementById('createLabel').style.display = "inline";
+            document.getElementById('UpdateLabel').style.display = "none";
+            document.getElementById('doCreateButton').style.display = "block";
+            document.getElementById('doUpdateButton').style.display = "none";
+        }
+
 
     </script>
 </html>
