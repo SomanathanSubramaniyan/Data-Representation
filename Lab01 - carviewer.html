@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<!--Lab 01 Author : Somu-->
+    <head>
+        <title> View cars</title>
+    </head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+ 
+    <style>
+        	.div1 
+                {   float:left;
+                    background-color: #ADD8E6;
+                    height:270px;
+                    width:700px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    border-bottom: 1px dashed #ddd;
+                    padding: 5px;
+                    border: 5px solid green;
+                } 
+
+            .div1 label {float:left; width: 30%;text-align: left;}
+            .div1 input {float:left;width: 30%;} /* this gives space for the label on the left */
+            .div1 select {float:left;width: 30%;} /* this gives space for the label on the left */
+            .div1 .clear {clear:both;} /* prevent elements from stacking weirdly */
+    </style>
+
+    <body>
+        <h1>Cars</h1>
+
+        <div >
+            <button class="btn btn-primary"> Create</button> <br> <br>
+        </div>
+        <div >
+            <table class="table">
+                <tr>
+                    <th>reg</th>
+                    <th>make</th>
+                    <th>model</th>
+                    <th>price</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+                <tr>
+                        <th>191 M0 123</th>
+                        <th>Ford</th>
+                        <th>Modeo</th>
+                        <th>25000</th>
+                        <th><button> update</button></th>
+                        <th><button> delete</button></th>
+                </tr>
+            </table>
+        </div>
+        <div class="div1">
+            <form>
+                <h2><span>Create a</span><span>Update this</span><span>Car</span></h2> <div class="clear"></div>
+                <div class="form-group">
+                    <label>Registration Number:</label> 
+                    <input type="text" name="reg" class="form-control"><br/> 
+                </div>
+                <div class="form-group">
+                    <label>Car Make:</label> 
+                    <select name="make" class="form-control">
+                            <option value="Ford">Ford</option>
+                            <option value="Fiat">Ford</option>
+                            <option value="Nissan">Ford</option>
+                        </select><br/> 
+                </div>
+                <div class="form-group">
+                    <label>Car Model:</label> 
+                    <input type="text" name="model" class="form-control"><br/>
+                </div>
+                <div class="form-group">
+                    <label>Car Price:</label> 
+                    <input type="number" name="price" class="form-control"><br/> 
+                </div>
+                <span><button class="btn btn-primary">Create</button></span>
+                <span><button class="btn btn-primary">Update</button></span>
+            </form>
+        </div>
+    </body>
+
+</html>
