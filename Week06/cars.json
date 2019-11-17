@@ -1,0 +1,22 @@
+{
+    "cars": [
+        {
+            "make": "Ford",
+            "model": "Mondeo",
+            "price": 18000,
+            "reg": "181G1234"
+        },
+        {
+            "make": "Opel",
+            "model": "Corsa",
+            "price": 12000,
+            "reg": "181 G 9999"
+        },
+        {
+            "make": "DMW",
+            "model": "X-Series",
+            "price": 25000,
+            "reg": "181 G 8888"
+        }
+    ]
+}
