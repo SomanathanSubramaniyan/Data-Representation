@@ -35,8 +35,7 @@ ws.write(row,16,"type")
 ws.write(row,17,"site_admin")
 row +=1
 
-
-for githubuser in data['']:
+for githubuser in data:
     ws.write(row,0,githubuser["login"])
     ws.write(row,1,githubuser["id"])
     ws.write(row,2,githubuser["node_id"])
