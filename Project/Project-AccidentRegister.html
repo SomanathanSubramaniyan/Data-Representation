@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<!--Lab 02 Author : Somu-->
+<html>
+    <head>
+        <title>Ireland Accidents Register </title>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+   
+    <style>
+        	.div1 
+                {   float:left;
+                    background-color: #ADD8E6;
+                    height:270px;
+                    width:700px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    border-bottom: 1px dashed #ddd;
+                    padding: 5px;
+                    border: 5px solid green;
+                } 
+
+            .div1 label {float:left; width: 30%;text-align: left;}
+            .div1 input {float:left;width: 30%;} /* this gives space for the label on the left */
+            .div1 select {float:left;width: 30%;} /* this gives space for the label on the left */
+            .div1 .clear {clear:both;} /* prevent elements from stacking weirdly */
+    </style>
+    </head>
+
+    <body>
+        <h1>Ireland Accident Register</h1>
+
+        <div id="showcreatebutton">
+            <button class="btn btn-primary" onclick="showcreate()"> Create</button> <br> <br>
+        </div>
+        <div >
+            <table class="table" id="carTable">
+                <tr id='reg'>
+                    <th>reg</th>
+                    <th>make</th>
+                    <th>model</th>
+                    <th>price</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+                <tr id='191 M0 123'>
+                        <td>191 M0 123</td>
+                        <td>Ford</td>
+                        <td>Modeo</td>
+                        <td>25000</td>
+                        <td><button onclick="showUpdate(this)"> update</button></td>
+                        <td><button onclick="doDelete(this)"> delete</button></td>
+                </tr>
+            </table>
+        </div>
+        <div class="div1" id="createupdatedelete" style="display:none">
+            <form id="createUpdateForm">
+                <h2><span id="createLabel">Create a</span>
+                    <span id="UpdateLabel">Update this</span>
+                    <span>Car</span>
+                </h2>
+                <div class="form-group">
+                    <label>Registration Number:</label> 
+                    <input type="text" name="reg" class="form-control"><br/> 
+                </div>
+                <div class="form-group">
+                    <label>Car Make:</label> 
+                    <select name="make" class="form-control">
+                            <option value="Ford">Ford</option>
+                            <option value="Fiat">Ford</option>
+                            <option value="Nissan">Ford</option>
+                        </select><br/> 
+                </div>
+                <div class="form-group">
+                    <label>Car Model:</label> 
+                    <input type="text" name="model" class="form-control"><br/>
+                </div>
+                <div class="form-group">
+                    <label>Car Price:</label> 
+                    <input type="number" name="price" class="form-control"><br/> 
+                </div>
+
+        </form>
+        
+        <button class="btn btn-primary" id="doCreateButton" onclick="doCreate()">Create</button>
+        <span><button class="btn btn-primary" id="doUpdateButton" onclick="doUpdate()">Update</button></span>
+        </div>
+    </body>
+
+    <script>
+    
+        function showcreate()
+        {
+            document.getElementById('showcreatebutton').style.display = "none";
+            document.getElementById('carTable').style.display = "none";
+            document.getElementById('createupdatedelete').style.display = "block";
+
+            document.getElementById('createLabel').style.display = "inline";
+            document.getElementById('UpdateLabel').style.display = "none";
+            document.getElementById('doCreateButton').style.display = "block";
+            document.getElementById('doUpdateButton').style.display = "none";
+        }
+        function showupdate()
+        {
+            document.getElementById('showcreatebutton').style.display = "none";
+            document.getElementById('carTable').style.display = "none";
+            document.getElementById('createupdatedelete').style.display = "block";
+
+            document.getElementById('createLabel').style.display = "none";
+            document.getElementById('UpdateLabel').style.display = "inline";
+            document.getElementById('doCreateButton').style.display = "none";
+            document.getElementById('doUpdateButton').style.display = "block";
+        }
+        function showViewAll()
+        {
+            document.getElementById('showcreatebutton').style.display = "block";
+            document.getElementById('carTable').style.display = "inline";
+            document.getElementById('createupdatedelete').style.display = "none";
+        }
+
+        function doCreate()
+        {
+
+           console.log("check");
+
+            var form=document.getElementById('createupdatedelete');
+
+            var car ={};
+            car.reg = form.querySelector('input[name="reg"]').value;
+            car.make = form.querySelector('select[name="make"]').value ;
+            car.model = form.querySelector('input[name="model"]').value ;
+            car.price = form.querySelector('input[name="price"]').value ;
+
+            console.log(JSON.stringify(car));
+            addCarToTable(car);
+            //clearForm();
+            showViewAll();
+        }
+
+        function clearForm()
+        {
+            var form = document.getElementById('createupdatedelete')
+
+            form.querySelector('input[name="reg"]').disabled = false;
+            form.querySelector('input[name="reg"]').value ='';
+            form.querySelector('select[name="make"]').value = '';
+            form.querySelector('input[name="model"]').value = '';
+            form.querySelector('input[name="price"]').value = '';
+
+        }
+        function doDelete(r){
+            var tableElement = document.getElementById('carTable');
+            var index =r.parentNode.parentNode.rowIndex;
+            tableElement.deleteRow(index);
+        }
+        function showUpdate(buttonElement) {
+            var rowElement = buttonElement.parentNode.parentNode;
+            var car =getCarFromRow(rowElement);
+            populateFormWithCar(car);
+            showupdate();
+        }
+        function addCarToTable(car) {
+
+            var tableElement = document.getElementById('carTable');
+            var rowElement = tableElement.insertRow(-1);
+            rowElement.setAttribute('id',car.reg);
+            var cell1 = rowElement.insertCell(0);
+            cell1.innerHTML = car.reg;
+            var cell2 = rowElement.insertCell(1);
+            cell2.innerHTML = car.make;
+            var cell3 = rowElement.insertCell(2);
+            cell3.innerHTML = car.model;
+            var cell4 = rowElement.insertCell(3);
+            cell4.innerHTML = car.price;
+            var cell5 = rowElement.insertCell(4);
+            cell5.innerHTML = '<button onclick="showUpdate(this)"> update</button>';
+            var cell6 = rowElement.insertCell(5);
+            cell6.innerHTML = '<button onclick="doDelete(this)"> delete</button>';
+        }
+        function getCarFromRow(rowElement)
+        {
+            var car ={};
+            car.reg = rowElement.cells[0].firstChild.textContent;
+            car.make = rowElement.cells[1].firstChild.textContent;
+            car.model = rowElement.cells[2].firstChild.textContent;
+            car.price = rowElement.cells[3].firstChild.textContent;
+            return car;
+        }
+        function populateFormWithCar(car)
+        {
+            var form = document.getElementById('createupdatedelete');
+
+            form.querySelector('input[name="reg"]').disabled =true;
+
+            form.querySelector('input[name="reg"]').value =car.reg;
+            form.querySelector('select[name="make"]').value = car.make;
+            form.querySelector('input[name="model"]').value = car.model;
+            form.querySelector('input[name="price"]').value = car.price;
+        }
+        // Update the selected records into the table
+        function doUpdate()
+        {
+            var car = getCarFromForm();
+            var rowElement = document.getElementById(car.reg);
+            console.log(car.reg,rowElement);
+            setCarInRow(rowElement,car);
+            clearForm();
+            showViewAll();
+
+        }
+        // Update :: get the updated  car details from the form
+        function getCarFromForm()
+        {
+            var form = document.getElementById('createupdatedelete');
+            var car=  {};
+            car.reg = form.querySelector('input[name="reg"]').value ;
+            car.make = form.querySelector('select[name="make"]').value ;
+            car.model = form.querySelector('input[name="model"]').value ;
+            car.price = form.querySelector('input[name="price"]').value ;
+            console.log(JSON.stringify(car));
+            return car;
+        }
+        // update ::  update the car table
+        function setCarInRow(rowElement, car)
+        {
+            rowElement.cells[0].firstChild.textContent = car.reg;
+            rowElement.cells[1].firstChild.textContent = car.make;
+            rowElement.cells[2].firstChild.textContent = car.model;
+            rowElement.cells[3].firstChild.textContent = car.price;
+            
+        }
+
+    </script>
+</html>
