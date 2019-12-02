@@ -1,22 +1,29 @@
 <!DOCTYPE HTML>
-<html>
-<!-- Author : Somu  Date: 25th Nov 2019-->
-<!-- Cource : Data Representation -->
-<!--  **************USER NAME ::  Enter a valid email (example : sample@gmail.com) ************
-      **************PASSWORD  ::  guest *************** -->
-
+<html itemscope itemtype="http://schema.org/Article">
 <head>
-	<!-- Style Setting and relative positioning of the User Name and Password input boxes 
-	     Screen name - "Login Screen"
-		 Create a CSS sytle sheet to use consistent design across the board
-	-->
-	<title> Login Screen </title>
+  <!-- BEGIN Pre-requisites -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+  </script>
+  <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
+  </script>
+  <!-- END Pre-requisites -->
+  <script>
+		function start() {
+		  gapi.load('auth2', function() {
+			auth2 = gapi.auth2.init({
+			  client_id: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
+			  // Scopes to request in addition to 'profile' and 'email'
+			  //scope: 'additional_scope'
+			});
+		  });
+		}
+	</script>
+	
 
-	<style>
-		
+	<title> DataRepresentation</title>
 
-	</style>
-	 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
    
 </head>
 
@@ -26,18 +33,21 @@
 			<div class="w-100 p-5" style="background-color: rgb(238, 238, 238);">
 				<h1 align="center" style="color:rgb(38, 0, 255);"> Ireland - Road Accidents Register</h1>
 			</div> 
-			<br><br>
-			<div class="w-100 p-5" style="background-color: rgb(238, 238, 238);">
-				<form id="myForm">
-					User Name:
-					<input type="email" placeholder="Enter your email" id="uName" > <br> <br>
-					Password  :
-					<input type="password" placeholder="Enter Password" id="pWord" minlength="5"/>  <br> <br>
-				
-					<button type="button" onclick ="validate()"> Submit </button>
-					<button type="button" onclick="forgotPassword()"> Forgot Password </button>
-				</form>
-			</div>
+            <br><br>
+            
+			<div class="g-signin2" data-onsuccess="onSignIn">
+			
+			<button id="signinButton">Sign in with Google</button>
+			
+					<script>
+					  $('#signinButton').click(function() {
+						// signInCallback defined in step 6.
+						auth2.grantOfflineAccess().then(signInCallback);
+					  });
+					</script>
+						
+
+           	</div>
 		<!-- Display the featured functions of this website-->
 
 			<div class="row" style="height:150px;">
@@ -52,46 +62,20 @@
 </body>
 
 <script>
-/* This validates the password and ensure the user is not null */
-function validateUserpwd() 
-{
-		if((document.getElementById("uName").value != "") && (document.getElementById("pWord").value =="guest"))
-			{
-			alert("The entered User name and Password credentials are valid");
-			location.replace( "graph/graph.html")
-			}
-		else 
-			{
-			alert("Enter valid User name and Password");
-			}
-}	
 
-/* The function (forgot password) show the temporary password for the user to login*/
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+  }
 
-function forgotPassword() 
-{
-		if((document.getElementById("pWord").value != "") && (document.getElementById("pWord").value !="guest"))
-			{
-			alert("Enter the correct password. The temporary password is 'guest' ");
-			}
-		else 
-			{
-			alert("The user name is any valid email and the temporary password is 'guest' ");
-			}
-}	
-
-/* This function validates the email id. If valid, call the function to check the password*/
-
-function validate()
-{
-		if (!document.getElementById("uName").checkValidity())
-			{
-			alert("Enter valid email");
-			}
-		else
-			{
-			validateUserpwd() ;
-			}
+function onSignIn(googleUser) {
+  var profile = googleUser.getBasicProfile();
+  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  console.log('Name: ' + profile.getName());
+  console.log('Image URL: ' + profile.getImageUrl());
+  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
 </script>
