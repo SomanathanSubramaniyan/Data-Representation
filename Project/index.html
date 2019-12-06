@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Vehicle Accident Register - Sign-in</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+         <!-- The below modules are required for the google API sign-in 
+           -- the details are adapted from the the google website https://developers.google.com/identity/sign-in/web/sign-in
+        -->
+        <meta name="google-signin-client_id" content="488806718921-5vhe1f86a1qr84u4ir7v0fod7lq5m317.apps.googleusercontent.com">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="script.js"></script>
+
+        <!-- Place to position the google sign-in button-->
+        <style>
+            .g-signin2{
+                margin-left: 500px;
+                margin-top: 200px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+    <!-- Google API Sign-in module -->
+        <div class="g-signin2" data-onsuccess="onSignIn">
+        </div>
+
+        <div class="data">
+            <p>Profile Details</p>
+            <img id="pic" class="img-circle" width="100" height="100"/>
+            <p>Email Address</p>
+            <p id ="email" class="alert alert-danger"></p>
+            <button onclick="signOut()" class="btn btn-danger">SignOut</button>
+        </div>
+        
+    </body>
+</html>
