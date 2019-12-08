@@ -45,7 +45,7 @@
     <!-- Google API Sign-in module  :: ENDs HERE -->
         <div class="row container-fluid p-3 my-3 bg-light text-white" style="height:30px"></div>
         <div class="row container-fluid p-3 my-3 bg-primary text-white">
-            <p class="p"> This website allows below functionalities to be performed by an authorised google user
+            <p class="text-center"> This website allows below functionalities to be performed by an authorised google user
                 <li style="color:white; text-indent: 20px;">Register Accident Details</li>
                 <li style="color:white; text-indent: 20px;">Update Accident Details</li>
                 <li style="color:white; text-indent: 20px;">Enquire Accident Details</li>
@@ -61,12 +61,14 @@
         document.getElementById('sName').style.display = "none";
         document.getElementById("sButton").style.display = "block";
         document.getElementById("sOff").style.display = "block";
+        document.location.replace( './Accident-CRUD.html');
     
         var profile=googleUser.getBasicProfile();
         $(".g-signin2").css("display","block");
         $(".data").css("display","block");
         $(".#pic").attr('src',profile.getImageUrl());
         $(".#email").text(profile.getEmail());
+
     }
     // this particular function is called when the google user is sign-off from the site.
     function signOut()
