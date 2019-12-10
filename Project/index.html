@@ -145,47 +145,58 @@
 
     }
     // this particular function is called when the google user is sign-off from the site.
-    function signOut()
-    {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function(){
-            alert("you have successfully signed out");
-            $(".g-signin2").css("display","block");
-            $(".data").css("display","none");
-            document.getElementById("sName").style.display = "block";
-        });
-        document.getElementById('sName').style.display = "block";
-        document.getElementById("sOff").style.display = "none";
-    }
-    function doCreate()
-        {
-           console.log("check");
-            var form=document.getElementById('createUpdateForm');
-            var Accident ={};
-            Accident.province       = form.querySelector('select[id="province"]').value ;
-            Accident.VehicleType    = form.querySelector('select[id="VehicleType"]').value ;
-            Accident.DriverSex      = form.querySelector('select[id="DriverSex"]').value ;
-            Accident.DriverAge      = form.querySelector('select[id="DriverAge"]').value ;
-            var dateobj             = document.getElementById('MonthYear').value;
-            Accident.MonthYear      = dateobj.toString();
-            console.log(JSON.stringify(Accident));
-
-            $.ajax({                 
-                    "url": "http://127.0.0.1:5000/Accidents",                 
-                    "method":"POST",                 
-                    "data":JSON.stringify(Accident),                 
-                    "dataType": "JSON",                 
-                    contentType: "application/json; charset=utf-8",                 
-                    "success":function(result){                     
-                        console.log(result);                     
-                        document.getElementById("output").innerText = JSON. stringify(result);                     
-                        },                 
-                    "error":function(xhr,status,error){                     
-                        console.log("error: "+status+" msg:"+error);                 
-	                    }            
-                    });
-            getAccidents();
+    function cleartable()
+            {
+                                    // Delete the table elements
+                var myTable = document.getElementById("tAccident");
+                var rowCount = myTable.rows.length;
+                for (var x=rowCount-1; x>0; x--) 
+                    {
+                        myTable.deleteRow(x);
+                    }
             }
+    function signOut()
+            {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function(){
+                    alert("you have successfully signed out");
+                    $(".g-signin2").css("display","block");
+                    $(".data").css("display","none");
+                    document.getElementById("sName").style.display = "block";
+                });
+                document.getElementById('sName').style.display = "block";
+                document.getElementById("sOff").style.display = "none";
+            }
+    // Post the transactions
+    // clear the accidents table
+    // populate the accidents table from the getaccidents() function 
+    function doCreate()
+            {
+                var form=document.getElementById('createUpdateForm');
+                var Accident ={};
+                Accident.province       = form.querySelector('select[id="province"]').value ;
+                Accident.VehicleType    = form.querySelector('select[id="VehicleType"]').value ;
+                Accident.DriverSex      = form.querySelector('select[id="DriverSex"]').value ;
+                Accident.DriverAge      = form.querySelector('select[id="DriverAge"]').value ;
+                var dateobj             = document.getElementById('MonthYear').value;
+                Accident.MonthYear      = dateobj.toString();
+
+                $.ajax({                 
+                        "url": "http://127.0.0.1:5000/Accidents",                 
+                        "method":"POST",                 
+                        "data":JSON.stringify(Accident),                 
+                        "dataType": "JSON",                 
+                        contentType: "application/json; charset=utf-8",                 
+                        "success":function(result){   },                 
+                        "error":function(xhr,status,error){                     
+                            console.log("error: "+status+" msg:"+error);                 
+                            }            
+                        });
+                cleartable()        
+                getAccidents();
+            }
+    // Get all the accident details from the database
+    // use a for loop to populate the taccident table
         function getAccidents()
             {
                 $.ajax({
@@ -194,14 +205,17 @@
                             "data":"",
                             "dataType": "JSON",
                             "success":function(result){
-                            console.log(JSON.stringify(result));
-                            document.getElementById("output").innerText = JSON.stringify(result[1]);       
+                            for (Accident of result){
+                                    addAccidentToTable(Accident);
+                                    }  
                                 },
                             "error":function(xhr,status,error){
                                 console.log("error:"+status+" msg:"+error);
                                 }
                         });
             }
+
+// this function is used to add the accident details to the taccident table in the html page
         function addAccidentToTable(Accident) 
             {
                 var tableElement = document.getElementById('tAccident');
@@ -224,6 +238,72 @@
                 var cell6 = rowElement.insertCell(7);
                 cell6.innerHTML = '<button onclick="doDelete(this)"> delete</button>';
             }
+        // Delete an accident entry from the taccident table
+        // clear the html table
+        // populate the table from the database
+        function DeleteAccident(id)
+            {
+                $.ajax({
+                            "url": "http://127.0.0.1:5000/Accidents/"+encodeURI(id),
+                            "method":"DELETE",
+                            "data":"",
+                            "dataType": "JSON",
+                            "success":function(result){
+                            for (Accident of result){
+                                    addAccidentToTable(Accident);
+                                    }  
+                                },
+                            "error":function(xhr,status,error){
+                                console.log("error:"+status+" msg:"+error);
+                                }
+                        });
+                cleartable()        
+                getAccidents();
+
+            }     
+        // Delete the accident row from the table    
+        function doDelete(r)
+            {
+                var tableElement = document.getElementById('tAccident');
+                var rowElement = r.parentNode.parentNode;
+                var index = rowElement.rowIndex;
+                DeleteAccident(rowElement.getAttribute("id"));
+                tableElement.deleteRow(index);
+            }  
+        //update the value of the accident table
+        function UpdateAccident(id)
+            {
+                $.ajax({
+                            "url": "http://127.0.0.1:5000/Accidents/"+encodeURI(id),
+                            "method":"PUT",
+                            "data":"",
+                            "dataType": "JSON",
+                            "success":function(result){
+                            for (Accident of result){
+                                    addAccidentToTable(Accident);
+                                    }  
+                                },
+                            "error":function(xhr,status,error){
+                                console.log("error:"+status+" msg:"+error);
+                                }
+                        });
+            }     
+        function showUpdate(buttonElement) 
+            {
+                var rowElement = buttonElement.parentNode.parentNode;
+                var Accident =getCarFromRow(rowElement);
+                populateFormWithAccident(Accident);
+                showupdate();
+            }     
+        function populateFormWithAccident(Accident)
+            {
+           form.querySelector('select[id="province"]').value = Accident.province ;
+           form.querySelector('select[id="VehicleType"]').value = Accident.VehicleType ;
+           form.querySelector('select[id="DriverSex"]').value =  Accident.DriverSex  ;
+           form.querySelector('select[id="DriverAge"]').value = Accident.DriverAge    ;
+           form.querySelector('select[id="MonthYear"]').value = Accident.MonthYear;
+             }   
+
 
 </script>
 </html>

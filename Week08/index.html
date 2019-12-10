@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Vehicle Accident Register - Sign-in</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+         <!-- The below modules are required for the google API sign-in 
+           -- the details are adapted from the the google website https://developers.google.com/identity/sign-in/web/sign-in
+        -->
+        <meta name="google-signin-client_id" content="488806718921-5vhe1f86a1qr84u4ir7v0fod7lq5m317.apps.googleusercontent.com">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Place to position the google sign-in button-->
+    </head>
+
+    <body>
+    <!-- Web Page Heading -->
+        <div class="row" >
+            <div class="container-fluid p-3 my-3 bg-primary text-white" style="height:150px">
+                    <h1>Vehicle Accidents Register</h1>
+                    <p>The Irish road accidents information are available in this website.</p>
+            </div>
+        </div>
+        <div class="row container-fluid p-3 my-3 bg-light text-white" style="height:30px"></div>
+    <!-- Google API Sign-in module  :: STARTs HERE -->
+        <div class="row container-fluid p-3 my-3 bg-info text-white">
+          <!--  <div class="container-fluid p-3 my-3 bg-info text-white"> -->
+                <div class='col-lg-4'>
+                    <h4 id="sName" class="display-1" style="display:block;" >Use your Google ID to sign-in to the website</h4>
+                </div>
+                <div class='col-lg-4'>
+                    <div class="g-signin2" data-onsuccess="onSignIn">   </div>
+                </div>  
+         </div>
+         <div class="row container-fluid p-3 my-3 bg-info text-white">
+            <div class='col-lg-4'>
+                <h4 class="display-1" style="display:none;" id="sOff">Sign-off</h4>
+            </div>
+            
+            <div class='col-lg-4'>
+                <div class="data"> <button onclick="signOut()" class="btn btn-danger" style="display:none;" id="sButton">SignOut</button>
+                </div>
+            </div>
+        </div>
+    <!-- Google API Sign-in module  :: ENDs HERE -->
+        <div class="row container-fluid p-3 my-3 bg-light text-white" style="height:30px"></div>
+        <div class="row container-fluid p-3 my-3 bg-primary text-white">
+            <p class="text-center"> This website allows below functionalities to be performed by an authorised google user
+                <li style="color:white; text-indent: 20px;">Register Accident Details</li>
+                <li style="color:white; text-indent: 20px;">Update Accident Details</li>
+                <li style="color:white; text-indent: 20px;">Enquire Accident Details</li>
+                <li style="color:white; text-indent: 20px;">Delete Accident Details</li>
+            </p>
+            <p class="p"> Key information is taken from the RSA website. Source: <a href="http://www.rsa.ie" target="_blank" style="color:red"> Road Safty Authority </a> </p>
+        </div>
+    </body>
+<script>
+    // this particular function is called when the google user is authenticaed
+    function onSignIn(googleUser)
+    {
+        document.getElementById('sName').style.display = "none";
+        document.getElementById("sButton").style.display = "block";
+        document.getElementById("sOff").style.display = "block";
+        document.location.replace( './Accident-CRUD.html');
+    
+        var profile=googleUser.getBasicProfile();
+        $(".g-signin2").css("display","block");
+        $(".data").css("display","block");
+        $(".#pic").attr('src',profile.getImageUrl());
+        $(".#email").text(profile.getEmail());
+
+    }
+    // this particular function is called when the google user is sign-off from the site.
+    function signOut()
+    {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function(){
+            alert("you have successfully signed out");
+            $(".g-signin2").css("display","block");
+            $(".data").css("display","none");
+            document.getElementById("sName").style.display = "block";
+        });
+        document.getElementById('sName').style.display = "block";
+        document.getElementById("sOff").style.display = "none";
+    }
+</script>
+</html>

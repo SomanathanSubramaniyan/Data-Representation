@@ -5,6 +5,7 @@ from AccidentDAO import AccidentDAO
 app = Flask(__name__,static_url_path='', static_folder='../')
 CORS(app)
 
+
 @app.route('/Accidents')
 def getAll():
     results = AccidentDAO.getAll()
