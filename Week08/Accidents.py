@@ -1,10 +1,7 @@
 from flask import Flask,jsonify,request,abort
-from flask_cors import CORS
 from AccidentDAO import AccidentDAO
 
 app = Flask(__name__,static_url_path='', static_folder='../')
-CORS(app)
-
 
 @app.route('/Accidents')
 def getAll():
@@ -28,7 +25,7 @@ def create():
     "DriverAge":request.json['DriverAge'] ,
     "DriverSex":request.json['DriverSex'] ,
     "MonthYear":request.json['MonthYear'] }
-    values = ( 0,Accident["province"],Accident["VehicleType"],Accident["DriverAge"],Accident["DriverSex"],Accident["MonthYear"] )
+    values = ( Accident["province"],Accident["VehicleType"],Accident["DriverAge"],Accident["DriverSex"],Accident["MonthYear"] )
     newId = AccidentDAO.create(values)
     Accident["id"]=newId
     return jsonify(Accident) 
@@ -37,7 +34,8 @@ def create():
 @app.route('/Accidents/<int:id>', methods=['PUT'])
 def update(id):
     foundAccident = AccidentDAO.findByID(id)
-    print(foundAccident)
+    if not foundAccident:
+        abort(404)
     if not request.json:
         abort(400)
     reqJson = request.json

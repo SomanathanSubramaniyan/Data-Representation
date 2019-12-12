@@ -1,20 +1,23 @@
 import mysql.connector
+import Config as cfg
 class AccidentDAO:
     db=""
     def __init__(self): 
         self.db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Somu@1975",
-        database="Accidents"
+        host=cfg.mysql['host'],
+        user=cfg.mysql['username'],
+        password=cfg.mysql['password'],
+        database=cfg.mysql['database']
         )
-                
+
     def create(self, values):
         cursor = self.db.cursor()
-        sql="insert into accidents (id,province,VehicleType,DriverAge,DriverSex, MonthYear) values (%s,%s,%s,%s,%s,%s)"
+        sql="insert into accidents (province,VehicleType,DriverAge,DriverSex, MonthYear) values (%s,%s,%s,%s,%s)"
         cursor.execute(sql, (values))
         self.db.commit()
-        return cursor.lastrowid
+        rowid = cursor.lastrowid
+        cursor.close()
+        return rowid
 
     def getAll(self):
         cursor = self.db.cursor()
@@ -26,6 +29,7 @@ class AccidentDAO:
         for result in results:
             print(result)
             returnArray.append(self.convertToDictionary(result))
+        cursor.close()
         return returnArray
 
     def findByID(self, id):
@@ -34,6 +38,7 @@ class AccidentDAO:
         values = (id,)
         cursor.execute(sql, values)
         result = cursor.fetchone()
+        cursor.close()
         return self.convertToDictionary(result)
 
     def update(self, values):
@@ -41,6 +46,7 @@ class AccidentDAO:
         sql="update accidents set province=%s,VehicleType=%s,DriverAge=%s,DriverSex=%s, MonthYear=%s where id=%s"
         cursor.execute(sql, values)
         self.db.commit()
+        cursor.close()
 
     def delete(self, id):
         cursor = self.db.cursor()
@@ -48,8 +54,8 @@ class AccidentDAO:
         values = (id,)
         cursor.execute(sql, values)
         self.db.commit()
-        print("delete done")
-
+        cursor.close()
+ 
     def convertToDictionary(self, result):
         colnames=['id','province','VehicleType','DriverAge','DriverSex', 'MonthYear']
         item = {}
