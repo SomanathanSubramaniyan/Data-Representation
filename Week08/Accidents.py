@@ -1,7 +1,7 @@
 from flask import Flask,jsonify,request,abort
 from AccidentDAO import AccidentDAO
 
-app = Flask(__name__,static_url_path='', static_folder='../')
+app = Flask(__name__,static_url_path='', static_folder='.')
 
 @app.route('/Accidents')
 def getAll():
@@ -39,6 +39,7 @@ def update(id):
     if not request.json:
         abort(400)
     reqJson = request.json
+    print(reqJson)
     if 'province' in reqJson:
         foundAccident['province'] = reqJson['province']
     if 'VehicleType' in reqJson:
@@ -47,7 +48,7 @@ def update(id):
         foundAccident['DriverAge'] = reqJson['DriverAge']
     if 'DriverSex' in reqJson:
         foundAccident['DriverSex'] = reqJson['DriverSex']
-    if 'Month-Year' in reqJson:
+    if 'MonthYear' in reqJson:
         foundAccident['MonthYear'] = reqJson['MonthYear']
     values = (foundAccident["province"],foundAccident["VehicleType"],foundAccident["DriverAge"],foundAccident["DriverSex"],foundAccident["MonthYear"],foundAccident["id"]  )
     print(values)
